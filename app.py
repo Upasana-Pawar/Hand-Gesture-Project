@@ -222,7 +222,7 @@ with col1:
         
         # Display frame
         processed_frame_rgb = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
-        camera_placeholder.image(processed_frame_rgb, use_container_width=True)
+        camera_placeholder.image(processed_frame_rgb, width=640)
         
         frame_count += 1
         
