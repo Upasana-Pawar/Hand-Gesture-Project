@@ -368,27 +368,31 @@ Certain gestures share similar landmark patterns, leading to occasional misclass
 
 # 📸 Demo
 
-# 📸 System Demonstration
-
-## Application Interface
-
 ## Gesture Detection Examples
 
-(data\Images\ss\Hand-Gesture-Recognition.png)
-data\Images\ss\4.png
-data\Images\ss\5.png
-data\Images\ss\6.png
-data\Images\ss\7.png
-(data\Images\ss\end.png)
+### Application Interface
 
-## Different Lightening Conditions
+![Application Interface](data/Images/ss/Hand-Gesture-Recognition.png)
 
-data\Images\ss\L1.png
-data\Images\ss\L2.png
-data\Images\ss\L3.png
-data\Images\ss\L4.png
-data\Images\ss\L5.png
-data\Images\ss\L6.png
+### Gesture Example 1
+
+![Gesture Example 1](data/Images/ss/4.png)
+
+### Gesture Example 2
+
+![Gesture Example 2](data/Images/ss/5.png)
+
+### Gesture Example 3
+
+![Gesture Example 3](data/Images/ss/6.png)
+
+### Gesture Example 4
+
+![Gesture Example 4](data/Images/ss/7.png)
+
+### End Gesture
+
+![End Gesture](data/Images/ss/end.png)
 
 # 📚 Research Context
 
