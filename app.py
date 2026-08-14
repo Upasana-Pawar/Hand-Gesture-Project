@@ -1,11 +1,26 @@
 import streamlit as st
-import cv2
-import mediapipe as mp
 import numpy as np
 import joblib
 import os
 from pathlib import Path
 import tempfile
+from PIL import Image
+import io
+
+# Import with error handling
+try:
+    import cv2
+    HAS_CV2 = True
+except ImportError:
+    HAS_CV2 = False
+    st.error("OpenCV not available. Please check deployment logs.")
+
+try:
+    import mediapipe as mp
+    HAS_MEDIAPIPE = True
+except ImportError:
+    HAS_MEDIAPIPE = False
+    st.error("MediaPipe not available. Please check deployment logs.")
 
 # Set page config
 st.set_page_config(
@@ -65,6 +80,11 @@ def process_image(image, model, X_max, hands, mp_hands, mp_drawing):
 # Main app
 st.title("🖐️ Hand Gesture Recognition System")
 st.write("Detect and classify hand washing gestures using computer vision")
+
+# Check dependencies
+if not HAS_CV2 or not HAS_MEDIAPIPE:
+    st.error("⚠️ Required dependencies are not available. Please wait for the deployment to complete and reload the page.")
+    st.stop()
 
 # Load model and MediaPipe
 try:
