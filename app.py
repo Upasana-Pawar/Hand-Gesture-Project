@@ -158,11 +158,11 @@ if uploaded_file is not None:
         
         with col1:
             st.subheader("Original Image")
-            st.image(image_pil, use_column_width=True)
+            st.image(image_pil, use_container_width=True)
         
         with col2:
             st.subheader("Analysis Result")
-            st.image(annotated_image_pil, use_column_width=True)
+            st.image(annotated_image_pil, use_container_width=True)
         
         # Display detected gestures
         st.subheader("Detection Results")
