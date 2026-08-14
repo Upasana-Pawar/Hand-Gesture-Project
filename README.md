@@ -394,6 +394,26 @@ Certain gestures share similar landmark patterns, leading to occasional misclass
 
 ![End Gesture](data/Images/ss/end.png)
 
+## Under Different Lighting Conditions
+
+### Lighting Condition 1
+![Lighting Condition 1](data/Images/ss/L1.png)
+
+### Lighting Condition 2
+![Lighting Condition 2](data/Images/ss/L2.png)
+
+### Lighting Condition 3
+![Lighting Condition 3](data/Images/ss/L3.png)
+
+### Lighting Condition 4
+![Lighting Condition 4](data/Images/ss/L4.png)
+
+### Lighting Condition 5
+![Lighting Condition 5](data/Images/ss/L5.png)
+
+### Lighting Condition 6
+![Lighting Condition 6](data/Images/ss/L6.png)
+
 # 📚 Research Context
 
 This project was developed as part of an MSc Dissertation in Applied Computer Science and Artificial Intelligence.
