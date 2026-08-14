@@ -368,15 +368,12 @@ Certain gestures share similar landmark patterns, leading to occasional misclass
 
 # 📸 Demo
 
-Add screenshots and GIF demonstrations here.
+1. Output of the project when it is active
 
-Example:
+ (1)\data\Images\ss\Hand Gesture Recognition.png
 
-```markdown
-![System Demo](docs/demo.gif)
 
-![Recognition Example](docs/screenshots/example1.png)
-```
+
 
 ---
 
@@ -396,9 +393,6 @@ MSc Applied Computer Science and Artificial Intelligence
 
 University of Bradford
 
-LinkedIn: *(Add LinkedIn URL)*
-
-GitHub: *(Add GitHub URL)*
 
 ---
 
