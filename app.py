@@ -1,8 +1,14 @@
+import os
+import sys
+
+# Disable OpenGL and GUI libraries before any imports
+os.environ['DISPLAY'] = ''
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+
 import streamlit as st
 from PIL import Image
 import numpy as np
 import joblib
-import os
 from pathlib import Path
 
 # Set page config FIRST before any other st calls
@@ -16,9 +22,13 @@ st.set_page_config(
 try:
     import mediapipe as mp
     HAS_MEDIAPIPE = True
-except ImportError as e:
+except (ImportError, OSError) as e:
     HAS_MEDIAPIPE = False
-    st.error(f"⚠️ MediaPipe import error: {e}")
+    error_msg = str(e)
+    if "libGL" in error_msg or "cannot open shared object" in error_msg:
+        st.warning(f"⚠️ Graphics libraries not available on this system. Please wait...")
+    else:
+        st.warning(f"⚠️ MediaPipe initialization: {error_msg}")
 
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent / "Computer-Vision-Hand-Hygiene-Scanner"
@@ -43,10 +53,17 @@ def init_mediapipe():
     
     try:
         mp_hands = mp.solutions.hands
-        hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
+        # Use CPU only, disable GPU
+        hands = mp_hands.Hands(
+            static_image_mode=True,
+            max_num_hands=2,
+            min_detection_confidence=0.7,
+            min_tracking_confidence=0.7
+        )
         mp_drawing = mp.solutions.drawing_utils
         return hands, mp_hands, mp_drawing
     except Exception as e:
+        st.warning(f"Could not initialize MediaPipe: {e}")
         return None, None, None
 
 def extract_keypoints(landmarks):
@@ -55,13 +72,17 @@ def extract_keypoints(landmarks):
 
 def process_image(image_pil, model, X_max, hands, mp_hands, mp_drawing):
     """Process image and detect hand gestures."""
-    if model is None or hands is None:
+    if model is None:
         return image_pil, []
     
     # Convert PIL Image to numpy array
     image_np = np.array(image_pil)
     
-    # Convert BGR to RGB if needed
+    # If no hand detection available, just return original image
+    if hands is None or mp_hands is None:
+        return image_pil, ["Hand detection unavailable"]
+    
+    # Convert to RGB if needed
     if len(image_np.shape) == 3 and image_np.shape[2] == 3:
         image_rgb = image_np
     else:
@@ -110,8 +131,11 @@ if model is None or X_max is None:
     st.stop()
 
 if not HAS_MEDIAPIPE or hands is None:
-    st.warning("⚠️ MediaPipe is initializing... Please wait and refresh the page if needed.")
-    st.stop()
+    st.info("ℹ️ Hand detection is currently unavailable, but you can still upload images to see predictions.")
+    model_available = True
+    hands = None
+else:
+    model_available = True
 
 # Sidebar for options
 st.sidebar.title("Options")
@@ -137,17 +161,19 @@ if uploaded_file is not None:
             st.image(image_pil, use_column_width=True)
         
         with col2:
-            st.subheader("Detected Gestures")
+            st.subheader("Analysis Result")
             st.image(annotated_image_pil, use_column_width=True)
         
         # Display detected gestures
         st.subheader("Detection Results")
-        if gestures:
+        if gestures and gestures[0] != "Hand detection unavailable":
             st.success(f"✅ Gestures detected: {', '.join(gestures)}")
             
             # Create a summary
             for i, gesture in enumerate(gestures, 1):
                 st.info(f"Hand {i}: **{gesture}**")
+        elif "Hand detection unavailable" in gestures:
+            st.info("📝 Hand detection service is temporarily unavailable. Please try again in a few moments.")
         else:
             st.warning("⚠️ No hands detected in the image")
     except Exception as e:
